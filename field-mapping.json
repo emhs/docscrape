@@ -1,0 +1,108 @@
+{
+    "Title": [
+	"title",
+	"ttl"
+    ],
+    "First Name": [
+	["first", ["",
+		   "name",
+		   "initial"]]
+    ],
+    "Middle Name": [
+	["middle", ["",
+		    "name",
+		    "initial"]
+	],
+		    "mi"],
+    "Last Name": [
+	["last", ["",
+		  "name",
+		  "initial"]]
+    ],
+    "Company": [
+	["company", "business"],
+	"name"
+    ],
+    "Address 1": [
+	[["",
+	  "street"], "address", ["",
+				 "1"]]
+    ],
+    "Address 2": [
+	["address", "2"],
+	[["suite",
+	  "apartment",
+	  "building",
+	  "ste",
+	  "apt",
+	  "bldg"], ["",
+		    "number",
+		    "no",
+		    "no.",
+		    "#"]]
+    ],
+    "City": [
+	"city",
+	"town"
+    ],
+    "State": [
+	[["state",
+	  "st",
+	  "st.",
+	  "province",
+	  "prov",
+	  "prov."], ["",
+		     "state",
+		     "st",
+		     "st.",
+		     "province",
+		     "prov",
+		     "prov."]]],
+    "Postal": [
+	[["zip",
+          "postal",
+	  "post",
+	  "plz",
+	  "cap",
+	  "cep",
+	  "pin"], ["",
+		   "code",
+		   "+4",
+		   "plus four",
+		   "plus4",
+		   "plus 4",
+		   "+four"]]
+    ],
+    "Phone": [
+	[["work",
+          "company",
+	  "business",
+	  "office",
+	  ""], ["phone",
+		"ph",
+		"ph."], ["",
+			 "number",
+			 "no",
+			 "no.",
+			 "#"]]
+    ],
+    "Email Address": [
+	[["email",
+          "e-mail",
+	  "e mail"], ["",
+		      "address"]]
+    ],
+    "URL": [
+	["web"
+         "linkedin",
+	 "facebook",
+	 "twitter",
+	 "website"
+	 "",
+	 "google"
+	 "google+", ["site",
+                     "address",
+		     "url",
+		     ""]]
+    ],
+}
