@@ -1,34 +1,34 @@
 {
-    "Title": [
+    "title": [
 	"title",
 	"ttl"
     ],
-    "First Name": [
+    "first_name": [
 	["first", ["",
 		   "name",
 		   "initial"]]
     ],
-    "Middle Name": [
+    "middle_name": [
 	["middle", ["",
 		    "name",
 		    "initial"]
 	],
 		    "mi"],
-    "Last Name": [
+    "last_name": [
 	["last", ["",
 		  "name",
 		  "initial"]]
     ],
-    "Company": [
+    "company": [
 	["company", "business"],
 	"name"
     ],
-    "Address 1": [
+    "address_1": [
 	[["",
 	  "street"], "address", ["",
 				 "1"]]
     ],
-    "Address 2": [
+    "address_2": [
 	["address", "2"],
 	[["suite",
 	  "apartment",
@@ -41,11 +41,11 @@
 		    "no.",
 		    "#"]]
     ],
-    "City": [
+    "city": [
 	"city",
 	"town"
     ],
-    "State": [
+    "state": [
 	[["state",
 	  "st",
 	  "st.",
@@ -58,7 +58,7 @@
 		     "province",
 		     "prov",
 		     "prov."]]],
-    "Postal": [
+    "postal": [
 	[["zip",
           "postal",
 	  "post",
@@ -73,7 +73,7 @@
 		   "plus 4",
 		   "+four"]]
     ],
-    "Phone": [
+    "phone": [
 	[["work",
           "company",
 	  "business",
@@ -86,13 +86,13 @@
 			 "no.",
 			 "#"]]
     ],
-    "Email Address": [
+    "email": [
 	[["email",
           "e-mail",
 	  "e mail"], ["",
 		      "address"]]
     ],
-    "URL": [
+    "url": [
 	["web"
          "linkedin",
 	 "facebook",
