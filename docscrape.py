@@ -69,11 +69,21 @@ def do_step(driver, record, step, mappings):
     else:
         getattr(element, step["action"][0])
 
-def check_result(driver, record, element, criteria, mappings):
+def check_result(driver, record, result, criteria, mappings):
     """Check the provided result for a match to the record."""
     if not criteria[0].has_key("weight"):
+        weight_steps = map(float, range(1, len(criteria)+1))
+        weights = [step/sum(weight_steps) for step in weight_steps]
         for criterion in criteria:
-            criterion["weight"] = 
+            criterion["weight"] = weights.pop()
+    score = 0
+    for criterion in criteria:
+        element = result.find_element(getattr(By, criterion["element"][0]),
+                                      criterion["element"][1])
+        if getattr(element, criterion["test"][0])(
+                criterion["test"][1].format(**record)):
+            score += criterion["weight"]
+    return(score)
 
 def bootstrap(driver, record, sources, mappings):
     """Scrape each source for more data for the provided record."""
