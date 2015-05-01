@@ -44,6 +44,16 @@ def build_mappings(map_filename):
                             mappings[sep_variant] = field
     return(mappings)
 
+def build_matchers(matchers_file):
+    """Collect regexp patterns and compile regexps"""
+    with open(matchers_file, "r", encoding="utf-8") as matchersfile:
+        raw_matchers = json.load(matchersfile)
+    matchers = defaultdict(list)
+    for field, matcher_list in raw_matchers.items():
+        for raw_matcher in matcher_list:
+            matchers[field].append(re.compile(raw_matcher))
+    return(matchers)
+
 def map_record(record, mappings):
     """Convert field names of a given record to the standardized form."""
     mapped_record = defaultdict(list)
@@ -63,7 +73,7 @@ def import_sources(sources_file):
     with open(sources_file, "r", encoding="utf-8") as sourcefile:
         return(json.load(sourcefile))
 
-def do_step(driver, record, step, mappings, result=None):
+def do_step(driver, record, step, mappings, matchers, result=None):
     """Process the specified step."""
     if step.has_key["with result"] and step["with result"] and result:
         result.find_element(getattr(By, step["element"][0]),
@@ -72,7 +82,10 @@ def do_step(driver, record, step, mappings, result=None):
         element = driver.find_element(getattr(By, step["element"][0]),
                                       step["element"][1])
     if step["action"][0] == "data":
-        pass
+        for matcher in matchers[step["action"][1]]:
+            match = matcher.match(element.text())
+            if match:
+                record[step["action"][1]].append(match.group())
     else:
         getattr(element, step["action"][0])
 
@@ -92,13 +105,13 @@ def check_result(driver, record, result, criteria, mappings):
             score += criterion["weight"]
     return(score)
 
-def bootstrap(driver, record, sources, mappings):
+def bootstrap(driver, record, sources, mappings, matchers):
     """Scrape each source for more data for the provided record."""
     for source in sources:
         driver.get(source["address"])
         if source.has_key("steps"):
             for step in source["steps"]:
-                do_step(driver, record, step, mappings)
+                do_step(driver, record, step, mappings, matchers)
         if source.has_key("results"):
             for result in driver.find_elements(
                     getattr(By, source["results"]["element"][0]),
@@ -112,9 +125,10 @@ def bootstrap(driver, record, sources, mappings):
                             if step.has_key("with result") and \
                                step["with result"]:
                                 do_step(driver, record, step,
-                                        mappings, result)
+                                        mappings, matchers, result)
                             else:
-                                do_step(driver, record, step, mappings)
+                                do_step(driver, record, step,
+                                        mappings, matchers)
                         break
 
 @click.command()
@@ -122,12 +136,19 @@ def bootstrap(driver, record, sources, mappings):
               help="path to field-mapping file")
 @click.option("--sources-file", "-s", default="sources.json",
               help="path to source instructions")
+@click.option("--matchers-file", "-M", default="matchers.json",
+              help="path to patterns for matching valid data")
 @click.argument("input_file")
-def main(mapping_file, sources_file, input_file):
+def main(mapping_file, sources_file, matchers_file, input_file):
+    """DocScrape main loop"""
     mappings = build_mappings(mapping_file)
     sources = import_sources(sources_file)
+    matchers = build_matchers(matchers_file)
     data = import_data(input_file, mappings)
     driver = webdriver.Chrome()
     driver.implicitly_wait(10)
     for record in data:
-        bootstrap(driver, record, sources, mappings)
+        bootstrap(driver, record, sources, mappings, matchers)
+        # Consider deduplicating found data
+    # Decide on a better output strategy
+    print(data)
