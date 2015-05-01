@@ -11,7 +11,7 @@
 			 "input#multi_search_location_textbox"],
 	     "action": ["submit"]}
 	],
-	"for": {
+	"results": {
 	    "element": ["CSS_SELECTOR", "div.listing"],
 	    "criteria": [
 		{"element": ["CSS_SELECTOR", ".providerInfo > h2"],
