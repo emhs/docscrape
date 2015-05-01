@@ -14,6 +14,8 @@ import re
 from collections import defaultdict
 import Levenshtein
 
+MATCH_STRENGTH = 0.75 # Confidence threshold (out of 1.0)
+
 def listify(item):
     if type(item) in [list, tuple, set, dict]:
         return(item)
@@ -61,9 +63,14 @@ def import_sources(sources_file):
     with open(sources_file, "r", encoding="utf-8") as sourcefile:
         return(json.load(sourcefile))
 
-def do_step(driver, record, step, mappings):
+def do_step(driver, record, step, mappings, result=None):
     """Process the specified step."""
-    element = driver.find_element(getattr(By, step["element"][1]))
+    if step.has_key["with result"] and step["with result"] and result:
+        result.find_element(getattr(By, step["element"][0]),
+                            step["element"][1])
+    else:
+        element = driver.find_element(getattr(By, step["element"][0]),
+                                      step["element"][1])
     if step["action"][0] == "data":
         pass
     else:
@@ -91,7 +98,24 @@ def bootstrap(driver, record, sources, mappings):
         driver.get(source["address"])
         if source.has_key("steps"):
             for step in source["steps"]:
-                
+                do_step(driver, record, step, mappings)
+        if source.has_key("results"):
+            for result in driver.find_elements(
+                    getattr(By, source["results"]["element"][0]),
+                    source["results"]["element"][1]):
+                if check_result(driver, record, result,
+                                source["results"]["criteria"],
+                                mappings) > MATCH_STRENGTH:
+                    if source.has_key("match") and \
+                       source["match"].has_key("steps"):
+                        for step in source["match"]["steps"]:
+                            if step.has_key("with result") and \
+                               step["with result"]:
+                                do_step(driver, record, step,
+                                        mappings, result)
+                            else:
+                                do_step(driver, record, step, mappings)
+                        break
 
 @click.command()
 @click.option("--mapping-file", "-m", default="field-mapping.json",
