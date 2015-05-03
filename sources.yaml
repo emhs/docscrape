@@ -1,0 +1,106 @@
+---
+-
+  address: http://www.healthgrades.com
+  steps:
+    - 
+      element:
+        - "CSS_SELECTOR"
+        - "input#multi_search_textbox"
+      action:
+        - "send_keys"
+        - "{first_name} {middle_name} {last_name}"
+    -
+      element:
+        - CSS_SELECTOR
+        - "input#multi_search_location_textbox"
+      action:
+        - "send_keys"
+        - "{city}, {state} {postal}"
+    -
+      element:
+        - "CSS_SELECTOR"
+        - "input#multi_search_location_textbox"
+      action:
+        - "submit"
+  results:
+    element:
+      - "CSS_SELECTOR"
+      - "div.listing"
+    criteria:
+      -
+        element:
+          - "CSS_SELECTOR"
+          - ".providerInfo > h2"
+        test:
+          - "contains"
+          - "{last_name}"
+      -
+        element:
+          - "CSS_SELECTOR"
+          - "div.providerInfo"
+        test:
+          - "contains"
+          - "{city}, {state} {postal}"
+      -
+        element:
+          - "CSS_SELECTOR"
+          - ".providerInfo > h2"
+        test:
+          - "contains"
+          - "{first_name}"
+      -
+        element:
+          - "CSS_SELECTOR"
+          - "div.providerInfo"
+        test:
+          - "contains"
+          - "{address_1}"
+  match:
+    steps:
+      -
+        element:
+          - "CSS_SELECTOR"
+          - ".providerInfo a"
+        action:
+          - "click"
+        with result: true
+      -
+        element:
+          - "CSS_SELECTOR"
+          - "html"
+        action:
+          - "data"
+          - "url"
+      -
+        element:
+          - "CSS_SELECTOR"
+          - ".getPhoneNumberButton a"
+        action: 
+          - "click"
+      -
+        element:
+          - "CSS_SELECTOR"
+          - ".phoneNumber"
+        action:
+          - "data"
+          - "phone"
+      -
+        element:
+          - "CSS_SELECTOR"
+          - ".officeItemRight > dl > dt > a"
+        action:
+          - "data"
+          - "url"
+      -
+        element:
+          - "CSS_SELECTOR"
+          - ".officeItemRight > dl > dt > a"
+        action:
+          - "click"
+      -
+        element:
+          - "CSS_SELECTOR"
+          - "a.practiceLink"
+        action:
+          - "data"
+          - "url"

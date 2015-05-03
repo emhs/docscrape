@@ -1,0 +1,133 @@
+---
+title:
+  - title
+  - ttl
+first_name:
+  -
+    - first
+    -
+      - ""
+      - name
+      - initial
+middle_name:
+  -
+    - middle
+    -
+      - ""
+      - name
+      - initial
+  - mi
+company:
+  -
+    -
+      - company
+      - business
+    - name
+address_1:
+  -
+    -
+      - ""
+      - street
+    - address
+    -
+      - ""
+      - 1
+address_2:
+  -
+    - address
+    - 2
+  -
+    -
+      - suite
+      - apartment
+      - building
+      - ste
+      - apt
+      - bldg
+    -
+      - ""
+      - number
+      - no
+      - no.
+      - "#"
+city:
+  - city
+  - town
+state:
+  -
+    -
+      - state
+      - st
+      - st.
+      - province
+      - prov
+      - prov.
+    -
+      - ""
+      - state
+      - st
+      - st.
+      - providence
+      - prov
+      - prov.
+postal:
+  -
+    -
+      - zip
+      - postal
+      - post
+      - plz
+      - cap
+      - cep
+      - pin
+    -
+      - ""
+      - code
+      - +4
+      - plus four
+      - plus4
+      - plus 4
+      - +four
+phone:
+  -
+    -
+      - work
+      - company
+      - business
+      - office
+      - ""
+    -
+      - phone
+      - ph
+      - ph.
+    -
+      - ""
+      - number
+      - no.
+      - no
+      - "#"
+email:
+  -
+    -
+      - email
+      - e-mail
+      - e mail
+    -
+      - ""
+      - address
+url:
+  -
+    -
+      - web
+      - linkedin
+      - facebook
+      - twitter
+      - website
+      - ""
+      - google
+      - google+
+    -
+      - site
+      - address
+      - url
+      - ""
