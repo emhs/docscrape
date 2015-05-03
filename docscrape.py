@@ -7,7 +7,7 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import click
-import json
+import yaml
 import csv
 import itertools
 import re
@@ -29,7 +29,7 @@ def build_mappings(map_filename):
     mappings = defaultdict("Other")
     non_sep = re.compile(r"[a-zA-Z]")
     
-    with open(map_filename, 'r', encoding="utf-8") as map_file:
+    with open(map_filename, 'r') as map_file:
         map_spec = json.load(map_file)
     for field, spec_set in map_spec.items():
         for spec in spec_set:
@@ -46,12 +46,12 @@ def build_mappings(map_filename):
 
 def build_matchers(matchers_file):
     """Collect regexp patterns and compile regexps"""
-    with open(matchers_file, "r", encoding="utf-8") as matchersfile:
-        raw_matchers = json.load(matchersfile)
+    with open(matchers_file, "r") as matchersfile:
+        raw_matchers = yaml.load(matchersfile)
     matchers = defaultdict(list)
     for field, matcher_list in raw_matchers.items():
         for raw_matcher in matcher_list:
-            matchers[field].append(re.compile(raw_matcher))
+            matchers[field].append(re.compile("".join(raw_matcher)))
     return(matchers)
 
 def map_record(record, mappings):
@@ -70,8 +70,8 @@ def import_data(filename, mappings):
 
 def import_sources(sources_file):
     """Collect per source scraping instructions."""
-    with open(sources_file, "r", encoding="utf-8") as sourcefile:
-        return(json.load(sourcefile))
+    with open(sources_file, "r") as sourcefile:
+        return(yaml.load(sourcefile))
 
 def do_step(driver, record, step, mappings, matchers, result=None):
     """Process the specified step."""
@@ -132,11 +132,11 @@ def bootstrap(driver, record, sources, mappings, matchers):
                         break
 
 @click.command()
-@click.option("--mapping-file", "-m", default="field-mapping.json",
+@click.option("--mapping-file", "-m", default="field-mapping.yaml",
               help="path to field-mapping file")
-@click.option("--sources-file", "-s", default="sources.json",
+@click.option("--sources-file", "-s", default="sources.yaml",
               help="path to source instructions")
-@click.option("--matchers-file", "-M", default="matchers.json",
+@click.option("--matchers-file", "-M", default="matchers.yaml",
               help="path to patterns for matching valid data")
 @click.argument("input_file")
 def main(mapping_file, sources_file, matchers_file, input_file):
