@@ -21,4 +21,10 @@ phone:
     - ((?:[\\s-/_]?) # Separator
     - e?x?t?\\.?(?:[\\s-/_]?)\\d+ # Extension (optional)
 email: []
-url: []
+url:
+  - # Basic URL pattern
+    - "(((ht|f)tp(s?))\\://)?" # Protocol (optional)
+    - "((([a-zA-Z0-9_\\-]{2,}\\.)+[a-zA-Z]{2,})|" # Domain, or
+    - "((?:(?:25[0-5]|2[0-4]\\d|[01]\\d\\d|\\d?\\d)(?(\\.?\\d)\\.)){4}))" # IP
+    - "(:[a-zA-Z0-9]+)?" # Port
+    - "(/[a-zA-Z0-9\\-\\._\\?\\,\\'/\\\\\\+&amp;%\\$#\\=~]*)?" # and Path
