@@ -20,7 +20,11 @@ phone:
     - (\\d{4}) # 4 digit individual number
     - ((?:[\\s-/_]?) # Separator
     - e?x?t?\\.?(?:[\\s-/_]?)\\d+ # Extension (optional)
-email: []
+email:
+  - # RFC 2822 Email Address
+    - "([a-zA-Z0-9_\-\.]+)" # Username
+    - "@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|" # IP address, or
+    - "(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)" # Domain
 url:
   - # Basic URL pattern
     - "(((ht|f)tp(s?))\\://)?" # Protocol (optional)
